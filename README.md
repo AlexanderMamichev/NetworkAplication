@@ -1,4 +1,4 @@
-This is a network aplication for android that will mask all network traffic from an android phone and then all of this traffic will be constructed back once it reaches a server. 
+
  # MaskedVPN - Android Traffic Obfuscation Tool
 ​
  **MaskedVPN** is a research-oriented Android application designed to bypass network filters and Deep Packet Inspection (DPI) that block standard VPN handshakes. It uses the Android `VpnService` API to intercept all device traffic and "mask" it using custom bit manipulation before transmission.
