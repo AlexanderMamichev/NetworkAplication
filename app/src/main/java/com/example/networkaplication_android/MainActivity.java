@@ -36,26 +36,38 @@ public class MainActivity extends AppCompatActivity {
                 startVpn();
             }
         });
+
+        Button btnStop = findViewById(R.id.btn_stop);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopVpn();
+            }
+        });
     }
 
     private void startVpn() {
-        // 1. Check if the user has already granted VPN permission
         Intent intent = VpnService.prepare(this);
         if (intent != null) {
-            // 2. Request permission if not already granted
             startActivityForResult(intent, VPN_REQUEST_CODE);
         } else {
-            // 3. Permission already granted, start the service
             onActivityResult(VPN_REQUEST_CODE, RESULT_OK, null);
         }
+    }
+
+    private void stopVpn() {
+        Intent intent = new Intent(this, MyVpnService.class);
+        intent.setAction("STOP");
+        startService(intent);
+        Toast.makeText(this, "VPN Service Stopping...", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VPN_REQUEST_CODE && resultCode == RESULT_OK) {
-            // 4. Permission received, start our MyVpnService
             Intent intent = new Intent(this, MyVpnService.class);
+            intent.setAction("START");
             startService(intent);
             Toast.makeText(this, "VPN Service Started", Toast.LENGTH_SHORT).show();
         }
